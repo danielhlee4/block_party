@@ -1,13 +1,14 @@
 // Imports go here
 import Example from "./scripts/example";
-import Object from "./object.js";
+import Block from "./block.js";
 
 document.addEventListener("DOMContentLoaded",
 function() {
-    window.Object = Object;
+    // window.Block = Block;
 
-    const block = new Object({
-        pos: [150, 200],
+    const block = new Block({
+        x: 100,
+        y: 100,
         width: 50,
         height: 50,
         color: "#FF0000"

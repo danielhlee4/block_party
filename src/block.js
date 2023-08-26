@@ -1,6 +1,7 @@
-class Object {
+class Block {
     constructor(options) {
-        this.pos = options.pos;
+        this.x = options.x;
+        this.y = options.y;
         this.width = options.width;
         this.height = options.height;
         this.color = options.color;
@@ -8,8 +9,8 @@ class Object {
 
     draw(ctx) {
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.pos[0], this.pos[1], this.width, this.height);
+        ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
 
-export default Object;
+export default Block;

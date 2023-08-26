@@ -1,7 +1,7 @@
-import Object from "./object.js";
+// import Object from "./object.js";
 
-// class Game {
-//     constructor {
-//         this.objects = []
-//     }
-// }
+// // class Game {
+// //     constructor {
+// //         this.objects = []
+// //     }
+// // }

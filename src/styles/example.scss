@@ -5,6 +5,13 @@ $color: purple;
     padding: 20px;
 }
 
+body, html {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #game-canvas {
     border: 2px;
     border-style: solid;
