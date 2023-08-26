@@ -23,14 +23,16 @@ class Game {
         return matrix;
     }
 
-    add(col) {
-        this.blocks[col].push(new Block({game: this}))
+    add(col_idx, x, y) {
+        this.blocks[col_idx].push(new Block({ game: this, x: x, y: y }))
     }
 
     addBlocks() {
-        this.blocks.forEach((col) => {
-            for (let i = 0; i < Game.NUM_HEIGHT; i++) {
-                this.add(i);
+        this.blocks.forEach((col, col_idx) => {
+            for (let stack = 0; stack < Game.NUM_HEIGHT; stack++) {
+                let x = col_idx;
+                let y = stack;
+                this.add(col_idx, x, y);
             }
         })
     }
