@@ -10,7 +10,7 @@ class Block {
     static DIMS = 50;
     static COLORS = ["#FF0000", "#00FF00", "#0000FF"];
 
-    getRandomColor(arr) {
+    static getRandomColor(arr) {
         const randomIndex = Math.floor(Math.random() * arr.length);
         return arr[randomIndex];
     }
