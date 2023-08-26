@@ -5,6 +5,7 @@ class Block {
         this.width = options.width;
         this.height = options.height;
         this.color = options.color;
+        this.ctx = options.ctx
     }
 
     draw(ctx) {
