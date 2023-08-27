@@ -1,11 +1,14 @@
 import Block from "./block.js";
 
 class Game {
-    constructor(ctx) {
+    constructor(ctx, canvas) {
         this.ctx;
+        this.canvas = canvas;
         this.blocks = this.createMatrix(Game.NUM_COLS);
 
         this.addBlocks();
+
+        this.canvas.addEventListener('click', this.handleCanvasClick.bind(globalThis));
     }
 
     static NUM_COLS = 5;
@@ -23,16 +26,16 @@ class Game {
         return matrix;
     }
 
-    add(col_idx, x, y) {
-        this.blocks[col_idx].push(new Block({ game: this, x: x, y: y }))
+    add(colIdx, x, y) {
+        this.blocks[colIdx].push(new Block({ game: this, x: x, y: y }))
     }
 
     addBlocks() {
-        this.blocks.forEach((col, col_idx) => {
+        this.blocks.forEach((col, colIdx) => {
             for (let stack = 0; stack < Game.NUM_HEIGHT; stack++) {
-                let x = col_idx;
+                let x = colIdx;
                 let y = stack;
-                this.add(col_idx, x, y);
+                this.add(colIdx, x, y);
             }
         })
     }
@@ -46,6 +49,20 @@ class Game {
             block.draw(ctx);
         })
     }
+
+    handleCanvasClick(event) {
+        const rect = this.canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+
+        const clickedBlock = this.findBlockAt(mouseX, mouseY);
+        if (clickedBlock) {
+            this.removeBlock(clickedBlock);
+            // draw new blocks above corresponding column
+        }
+    }
+
+    
 }
 
 export default Game;
