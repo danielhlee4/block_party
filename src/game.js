@@ -2,13 +2,13 @@ import Block from "./block.js";
 
 class Game {
     constructor(ctx, canvas) {
-        this.ctx;
+        this.ctx = ctx;
         this.canvas = canvas;
         this.blocks = this.createMatrix(Game.NUM_COLS);
 
         this.addBlocks();
 
-        this.canvas.addEventListener('click', this.handleCanvasClick.bind(globalThis));
+        this.canvas.addEventListener('click', this.handleCanvasClick.bind(this));
     }
 
     static NUM_COLS = 5;
@@ -55,14 +55,17 @@ class Game {
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
 
-        const clickedBlock = this.findBlockAt(mouseX, mouseY);
+        console.log("Mouse Click Coordinates:", mouseX, mouseY);
+
+        const clickedBlock = this.findBlock(mouseX, mouseY);
         if (clickedBlock) {
+            console.log("Clicked Block:", clickedBlock);
             this.removeBlock(clickedBlock);
-            // draw new blocks above corresponding column
+            this.draw(this.ctx);
         }
     }
 
-    findBlockAt(x, y) {
+    findBlock(x, y) {
         const colIndex = Math.floor(x / Block.DIMS);
         const rowIndex = Math.floor(y / Block.DIMS);
 
@@ -76,6 +79,16 @@ class Game {
         }
 
         return null;
+    }
+
+    removeBlock(block) {
+        const colIndex = this.blocks.findIndex(col => col.includes(block));
+        if (colIndex !== -1) {
+            const rowIndex = this.blocks[colIndex].indexOf(block);
+            if (rowIndex !== -1) {
+                this.blocks[colIndex].splice(rowIndex, 1);
+            }
+        }
     }
 }
 
