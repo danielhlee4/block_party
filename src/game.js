@@ -88,6 +88,30 @@ class Game {
         // temporarily replacing the populated block with a placeholder
         col.splice(y, 1, new Block({ game: this, color: "#708090" }));
     }
+
+    bfsRemoveContiguousBlocks(startBlock) {
+        const queue = [];
+        const visited = new Set();
+
+        queue.push(startBlock);
+
+        while (queue.length > 0) {
+            const block = queue.shift();
+            const neighbors = this.getNeighbors(block);
+
+            for (const neighbor of neighbors) {
+                if (!visited.has(neighbor) && neighbor.color == startBlock.color) {
+                    queue.push(neighbor);
+                }
+            }
+
+            visited.add(block)
+        }
+
+        visited.forEach(block => {
+            this.removeBlock(block.x, block.y);
+        });
+    }
 }
 
 export default Game;
