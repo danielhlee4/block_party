@@ -62,7 +62,21 @@ class Game {
         }
     }
 
-    
+    findBlockAt(x, y) {
+        const colIndex = Math.floor(x / Block.DIMS);
+        const rowIndex = Math.floor(y / Block.DIMS);
+
+        if (colIndex < 0 || colIndex >= Game.NUM_COLS || rowIndex < 0) {
+            return null;
+        }
+
+        const col = this.blocks[colIndex];
+        if (col && rowIndex < col.length) {
+            return col[rowIndex];
+        }
+
+        return null;
+    }
 }
 
 export default Game;
