@@ -15,12 +15,6 @@ body, html {
   align-items: center;
 }
 
-#game-canvas {
-  border: 2px;
-  border-style: solid;
-  border-color: black;
-}
-
 #main {
   color: purple;
 }

@@ -57,38 +57,36 @@ class Game {
 
         console.log("Mouse Click Coordinates:", mouseX, mouseY);
 
-        const clickedBlock = this.findBlock(mouseX, mouseY);
+        const clickedBlock = this.findBlockAt(mouseX, mouseY);
         if (clickedBlock) {
             console.log("Clicked Block:", clickedBlock);
-            this.removeBlock(clickedBlock);
+            this.removeBlock(clickedBlock.x, clickedBlock.y);
             this.draw(this.ctx);
         }
     }
 
-    findBlock(x, y) {
+    findBlockAt(x, y) {
         const colIndex = Math.floor(x / Block.DIMS);
         const rowIndex = Math.floor(y / Block.DIMS);
 
-        if (colIndex < 0 || colIndex >= Game.NUM_COLS || rowIndex < 0) {
+        if (colIndex < 0 || colIndex >= Game.NUM_COLS || rowIndex < 0 || rowIndex >= Game.NUM_HEIGHT) {
             return null;
         }
 
-        const col = this.blocks[colIndex];
-        if (col && rowIndex < col.length) {
-            return col[rowIndex];
+        for (const block of this.blocks.flat()) {
+            if (block.x === colIndex && block.y === rowIndex) {
+                console.log("Find Block At:", block)
+                return block;
+            }
         }
 
         return null;
     }
 
-    removeBlock(block) {
-        const colIndex = this.blocks.findIndex(col => col.includes(block));
-        if (colIndex !== -1) {
-            const rowIndex = this.blocks[colIndex].indexOf(block);
-            if (rowIndex !== -1) {
-                this.blocks[colIndex].splice(rowIndex, 1);
-            }
-        }
+    removeBlock(x, y) {
+        const col = this.blocks[x];
+        // temporarily replacing the populated block with a placeholder
+        col.splice(y, 1, new Block({ game: this, color: "#708090" }));
     }
 }
 
