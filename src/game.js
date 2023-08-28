@@ -142,6 +142,10 @@ class Game {
 
         return neighbors;
     }
+
+    validPosition(x, y) {
+        return x >= 0 && x < Game.NUM_COLS && y >= 0 && y < Game.NUM_HEIGHT;
+    }
 }
 
 export default Game;
