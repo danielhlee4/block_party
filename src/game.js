@@ -60,7 +60,7 @@ class Game {
         const clickedBlock = this.findBlockAt(mouseX, mouseY);
         if (clickedBlock) {
             console.log("Clicked Block:", clickedBlock);
-            this.removeBlock(clickedBlock.x, clickedBlock.y);
+            this.removeContiguousBlocks(clickedBlock);
             this.draw(this.ctx);
         }
     }
@@ -89,12 +89,15 @@ class Game {
         col.splice(y, 1, new Block({ game: this, color: "#708090" }));
     }
 
-    bfsRemoveContiguousBlocks(startBlock) {
+    // Function uses BFS to remove contiguous blocks
+    removeContiguousBlocks(startBlock) {
         const queue = [];
         const visited = new Set();
+        let contigousCount = 0;
 
         queue.push(startBlock);
 
+        // Traverse contiguous neighbors with BFS
         while (queue.length > 0) {
             const block = queue.shift();
             const neighbors = this.getNeighbors(block);
@@ -102,15 +105,42 @@ class Game {
             for (const neighbor of neighbors) {
                 if (!visited.has(neighbor) && neighbor.color == startBlock.color) {
                     queue.push(neighbor);
+                    contigousCount++;
                 }
             }
 
-            visited.add(block)
+            visited.add(block);
         }
 
-        visited.forEach(block => {
-            this.removeBlock(block.x, block.y);
-        });
+        // If there are at least 2 contiguous blocks, remove them
+        if (contigousCount >= 2) {
+            visited.forEach(block => {
+                this.removeBlock(block.x, block.y);
+            });
+        }
+    }
+
+    getNeighbors(block) {
+        const neighbors = [];
+
+        const directions = [
+            { dx: 0, dy: -1 }, // N
+            { dx: 0, dy: 1 }, // S
+            { dx: 1, dy: 0 }, // E
+            { dx: -1, dy: 0 }, // W
+        ];
+
+        for (const dir of directions) {
+            const newX = block.x + dir.dx;
+            const newY = block.y + dir.dy;
+
+            if (this.validPosition(newX, newY)) {
+                const neighbor = this.blocks[newX][newY];
+                neighbors.push(neighbors);
+            }
+        }
+
+        return neighbors;
     }
 }
 
