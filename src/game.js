@@ -91,36 +91,33 @@ class Game {
         }
     }
 
-    // Function uses BFS to remove contiguous blocks
+    // Function uses DFS to remove contiguous blocks
     removeContiguousBlocks(startBlock) {
-        const queue = [];
+        const stack = [];
         const visited = new Set();
-        let contigousCount = 0;
-
-        queue.push(startBlock);
-
-        // Traverse contiguous neighbors with BFS
-        while (queue.length > 0) {
-            const block = queue.shift();
+        const blocksToRemove = [];
+    
+        stack.push(startBlock);
+    
+        while (stack.length > 0) {
+            const block = stack.pop();
             const neighbors = this.getNeighbors(block);
-
+    
             for (const neighbor of neighbors) {
-                if (!visited.has(neighbor) && neighbor.color == startBlock.color) {
-                    queue.push(neighbor);
-                    contigousCount++;
+                if (!visited.has(neighbor) && neighbor.color === startBlock.color) {
+                    stack.push(neighbor);
+                    visited.add(neighbor);
                 }
             }
-
+    
             visited.add(block);
+            blocksToRemove.push(block);
         }
-
-        // If there are at least 2 contiguous blocks, remove them
-        if (contigousCount > 1) {
-            visited.forEach(block => {
+    
+        if (blocksToRemove.length > 1) {
+            blocksToRemove.forEach(block => {
                 this.removeBlock(block.x, block.y);
             });
-
-            visited.clear();
         }
     }
 
