@@ -86,7 +86,9 @@ class Game {
     removeBlock(x, y) {
         const col = this.blocks[x];
         // temporarily replacing the populated block with a placeholder
-        col.splice(y, 1, new Block({ game: this, color: "#708090" }));
+        if (col && col[y]) {
+            col.splice(y, 1, new Block({ game: this, color: "#708090" }));
+        }
     }
 
     // Function uses BFS to remove contiguous blocks
@@ -113,10 +115,12 @@ class Game {
         }
 
         // If there are at least 2 contiguous blocks, remove them
-        if (contigousCount >= 2) {
+        if (contigousCount > 1) {
             visited.forEach(block => {
                 this.removeBlock(block.x, block.y);
             });
+
+            visited.clear();
         }
     }
 
@@ -136,7 +140,7 @@ class Game {
 
             if (this.validPosition(newX, newY)) {
                 const neighbor = this.blocks[newX][newY];
-                neighbors.push(neighbors);
+                neighbors.push(neighbor);
             }
         }
 
