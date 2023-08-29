@@ -8,6 +8,8 @@ function() {
     const ctx = canvas.getContext("2d");
 
     const game = new Game(ctx, canvas);
-    game.draw(ctx);
+
+    game.animate()
+    // game.draw(ctx);
     window.game = game;
 });

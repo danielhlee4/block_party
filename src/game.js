@@ -5,6 +5,7 @@ class Game {
         this.ctx = ctx;
         this.canvas = canvas;
         this.blocks = this.createMatrix(Game.NUM_COLS);
+        this.dimY = Game.DIM_Y;
 
         this.addBlocks();
 
@@ -27,7 +28,11 @@ class Game {
     }
 
     add(colIdx, x, y) {
-        this.blocks[colIdx].push(new Block({ game: this, x: x, y: y }))
+        this.blocks[colIdx].push(new Block({
+            game: this,
+            x: x,
+            y: y
+        }));
     }
 
     addBlocks() {
@@ -146,6 +151,19 @@ class Game {
 
     validPosition(x, y) {
         return x >= 0 && x < Game.NUM_COLS && y >= 0 && y < Game.NUM_HEIGHT;
+    }
+
+    animate() {
+        this.ctx.clearRect (0, 0, Game.DIM_X, Game.DIM_Y);
+        this.blocks.flat().forEach((block) => {
+            block.animate(this.ctx);
+        });
+
+        requestAnimationFrame(this.animate.bind(this));
+    }
+
+    checkCollision(colIdx) {
+        const col = this.blocks[colIdx];
     }
 }
 
