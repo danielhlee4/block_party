@@ -162,8 +162,26 @@ class Game {
         requestAnimationFrame(this.animate.bind(this));
     }
 
-    checkCollision(colIdx) {
-        const col = this.blocks[colIdx];
+    checkCollision(block) {
+        const colIdx = block.x;
+        const currentBlockBounds = block.bounds();
+
+        const blocksInSameCol = this.blocks[colIdx];
+
+        for (const otherBlock of blocksInSameCol) {
+            if (otherBlock !== block) {
+                const otherBlockBounds = otherBlock.bounds();
+
+                if (
+                    currentBlockBounds.bottom > otherBlockBounds.top &&
+                    currentBlockBounds.top < otherBlockBounds.bottom
+                ) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
 

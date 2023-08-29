@@ -24,6 +24,7 @@ class Block {
     }
 
     update() {
+        // floor collision
         const blockBottom = this.y + Block.DIMS;
         const floor = this.game.dimY;
 
@@ -38,6 +39,13 @@ class Block {
     animate(ctx) {
         this.update();
         this.draw(ctx);
+    }
+
+    bounds() {
+        return {
+            top: this.y * this.dims,
+            bottom: (this.y + 1) * this.dims
+        }
     }
 }
 
