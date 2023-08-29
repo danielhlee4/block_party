@@ -162,27 +162,28 @@ class Game {
         requestAnimationFrame(this.animate.bind(this));
     }
 
-    // checkCollision(block) {
-    //     const colIdx = block.x;
-    //     const currentBlockBounds = block.bounds();
+    checkCollision(block) {
+        const colIdx = block.x;
 
-    //     const blocksInSameCol = this.blocks[colIdx];
+        if (block.y === this.blocks[colIdx].length - 1) {
+            return false;
+        }
 
-    //     for (const otherBlock of blocksInSameCol) {
-    //         if (otherBlock !== block) {
-    //             const otherBlockBounds = otherBlock.bounds();
+        const currentBlockBounds = block.bounds();
+        const blocksInSameCol = this.blocks[colIdx];
 
-    //             if (
-    //                 currentBlockBounds.bottom > otherBlockBounds.top &&
-    //                 currentBlockBounds.top < otherBlockBounds.bottom
-    //             ) {
-    //                 return true;
-    //             }
-    //         }
-    //     }
+        const lowerNeighbor = blocksInSameCol[block.y + 1];
 
-    //     return false;
-    // }
+        if (lowerNeighbor) {
+            const lowerNeighborBounds = lowerNeighbor.bounds();
+
+            if (currentBlockBounds.bottom >= lowerNeighborBounds.top) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
 
 export default Game;

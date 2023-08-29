@@ -11,7 +11,7 @@ class Block {
 
     static DIMS = 50;
     static COLORS = ["#FF0000", "#00FF00", "#0000FF"];
-    static GRAVITY = 0.0005;
+    static GRAVITY = .0005;
 
     static getRandomColor(arr) {
         const randomIndex = Math.floor(Math.random() * arr.length);
@@ -24,24 +24,15 @@ class Block {
     }
 
     update() {
-        // floor collision
         const blockBottom = this.y + 1;
         const floor = this.game.dimY;
-
-        if (blockBottom <= floor) {
+        if (blockBottom <= floor && !this.game.checkCollision(this)) {
             this.y += this.vel;
             this.vel += Block.GRAVITY;
         } else {
             this.vel = 0;
-            this.y = floor;
+            this.y = Math.floor(blockBottom - 1);
         }
-
-        // if (!this.game.checkCollision(this)) {
-        //     this.y += this.vel;
-        //     this.vel += Block.GRAVITY;
-        // } else {
-        //     this.vel = 0
-        // }
     }
     
     animate(ctx) {
@@ -52,7 +43,7 @@ class Block {
     bounds() {
         return {
             top: this.y,
-            bottom: (this.y + 1)
+            bottom: this.y + 1
         }
     }
 }
