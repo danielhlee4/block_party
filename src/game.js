@@ -5,7 +5,7 @@ class Game {
         this.ctx = ctx;
         this.canvas = canvas;
         this.blocks = this.createMatrix(Game.NUM_COLS);
-        this.dimY = Game.DIM_Y;
+        this.dimY = Game.NUM_HEIGHT;
 
         this.addBlocks();
 
@@ -92,7 +92,7 @@ class Game {
         const col = this.blocks[x];
         // temporarily replacing the populated block with a placeholder
         if (col && col[y]) {
-            col.splice(y, 1, new Block({ game: this, color: "#708090" }));
+            col.splice(y, 1);
         }
     }
 
@@ -162,27 +162,27 @@ class Game {
         requestAnimationFrame(this.animate.bind(this));
     }
 
-    checkCollision(block) {
-        const colIdx = block.x;
-        const currentBlockBounds = block.bounds();
+    // checkCollision(block) {
+    //     const colIdx = block.x;
+    //     const currentBlockBounds = block.bounds();
 
-        const blocksInSameCol = this.blocks[colIdx];
+    //     const blocksInSameCol = this.blocks[colIdx];
 
-        for (const otherBlock of blocksInSameCol) {
-            if (otherBlock !== block) {
-                const otherBlockBounds = otherBlock.bounds();
+    //     for (const otherBlock of blocksInSameCol) {
+    //         if (otherBlock !== block) {
+    //             const otherBlockBounds = otherBlock.bounds();
 
-                if (
-                    currentBlockBounds.bottom > otherBlockBounds.top &&
-                    currentBlockBounds.top < otherBlockBounds.bottom
-                ) {
-                    return true;
-                }
-            }
-        }
+    //             if (
+    //                 currentBlockBounds.bottom > otherBlockBounds.top &&
+    //                 currentBlockBounds.top < otherBlockBounds.bottom
+    //             ) {
+    //                 return true;
+    //             }
+    //         }
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 }
 
 export default Game;

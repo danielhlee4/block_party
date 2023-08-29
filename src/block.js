@@ -25,15 +25,23 @@ class Block {
 
     update() {
         // floor collision
-        const blockBottom = this.y + Block.DIMS;
+        const blockBottom = this.y + 1;
         const floor = this.game.dimY;
 
-        if (blockBottom < floor) {
+        if (blockBottom <= floor) {
             this.y += this.vel;
             this.vel += Block.GRAVITY;
         } else {
-            this.vel = 0
+            this.vel = 0;
+            this.y = floor;
         }
+
+        // if (!this.game.checkCollision(this)) {
+        //     this.y += this.vel;
+        //     this.vel += Block.GRAVITY;
+        // } else {
+        //     this.vel = 0
+        // }
     }
     
     animate(ctx) {
@@ -43,8 +51,8 @@ class Block {
 
     bounds() {
         return {
-            top: this.y * this.dims,
-            bottom: (this.y + 1) * this.dims
+            top: this.y,
+            bottom: (this.y + 1)
         }
     }
 }
