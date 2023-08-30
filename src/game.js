@@ -92,7 +92,7 @@ class Game {
         const col = this.blocks[x];
         // temporarily replacing the populated block with a placeholder
         if (col && col[y]) {
-            col.splice(y, 1);
+            col.splice(y, 1, new Block({ game: this, color: "#708090" }));
         }
     }
 
