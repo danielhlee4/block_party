@@ -12,10 +12,10 @@ class Game {
         this.canvas.addEventListener('click', this.handleCanvasClick.bind(this));
     }
 
-    static NUM_COLS = 5;
-    static NUM_HEIGHT = 5; // how many blocks high a column can stack
-    static DIM_X = 250;
-    static DIM_Y = 250;
+    static NUM_COLS = 7;
+    static NUM_HEIGHT = 10; // how many blocks high a column can stack
+    static DIM_X = 350;
+    static DIM_Y = 500;
     static BG_COLOR = "#708090";
 
     createMatrix(cols) {
@@ -90,9 +90,9 @@ class Game {
 
     removeBlock(x, y) {
         const col = this.blocks[x];
-        // temporarily replacing the populated block with a placeholder
+        // Replacing the populated block with a placeholder
         if (col && col[y]) {
-            col.splice(y, 1, new Block({ game: this, color: "#708090" }));
+            col.splice(y, 1, new Block({ game: this, dummy: true }));
         }
     }
 
@@ -124,6 +124,15 @@ class Game {
                 this.removeBlock(block.x, block.y);
             });
         }
+
+        // Removing placeholder dummy blocks
+        this.blocks.forEach(col => {
+            for (let i = col.length - 1; i >= 0; i--) {
+                if (col[i].dummy === true) {
+                    col.splice(i, 1);
+                }
+            }
+        });
     }
 
     getNeighbors(block) {

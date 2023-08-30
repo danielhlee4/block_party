@@ -10,6 +10,15 @@ body, html {
     padding: 0;
     height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: #FFD211;
+    font-family: 'DotGothic16', sans-serif;
+}
+
+h1 {
+    color: #00AAFF;
+    font-size: 80px;
+    margin: 0px 0px 10px 0px;
 }

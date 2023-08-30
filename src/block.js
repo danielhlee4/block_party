@@ -7,10 +7,11 @@ class Block {
         this.color = Block.getRandomColor(Block.COLORS);
         this.dims = Block.DIMS;
         this.vel = 0;
+        this.dummy = options.dummy;
     }
 
     static DIMS = 50;
-    static COLORS = ["#FF0000", "#00FF00", "#0000FF"];
+    static COLORS = ["#FF8548", "#C477FF", "#00AAFF", "#7EFF4A"];
     static GRAVITY = .0005;
 
     static getRandomColor(arr) {
