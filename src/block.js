@@ -20,19 +20,24 @@ class Block {
 
     draw(ctx) {
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.x * this.dims, this.y * this.dims, this.dims, this.dims);
+        ctx.fillRect(this.x * this.dims, (4 - this.y) * this.dims, this.dims, this.dims);
     }
 
     update() {
-        const blockBottom = this.y + 1;
+        // console.log("vel:", this.vel)
+        const blockBottom = this.y - 1;
         const floor = this.game.dimY;
-        if (blockBottom <= floor && !this.game.checkCollision(this)) {
-            this.y += this.vel;
-            this.vel += Block.GRAVITY;
-        } else {
+        if (this.y == 0 || this.game.checkCollision(this)) {
             this.vel = 0;
-            this.y = Math.floor(blockBottom - 1);
+        } else {
+            this.y -= this.vel;
+            this.vel += Block.GRAVITY;
         }
+        // if (blockBottom <= floor && !this.game.checkCollision(this)) {
+        // } else {
+        //     this.vel = 0;
+        //     this.y = Math.floor(blockBottom - 1);
+        // }
     }
     
     animate(ctx) {

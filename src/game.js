@@ -28,7 +28,7 @@ class Game {
     }
 
     add(colIdx, x, y) {
-        this.blocks[colIdx].push(new Block({
+        this.blocks[colIdx].unshift(new Block({
             game: this,
             x: x,
             y: y
@@ -37,7 +37,7 @@ class Game {
 
     addBlocks() {
         this.blocks.forEach((col, colIdx) => {
-            for (let stack = 0; stack < Game.NUM_HEIGHT; stack++) {
+            for (let stack = Game.NUM_HEIGHT - 1; stack >= 0; stack--) {
                 let x = colIdx;
                 let y = stack;
                 this.add(colIdx, x, y);
@@ -72,7 +72,8 @@ class Game {
 
     findBlockAt(x, y) {
         const colIndex = Math.floor(x / Block.DIMS);
-        const rowIndex = Math.floor(y / Block.DIMS);
+        let rowIndex = Math.floor(y / Block.DIMS);
+        rowIndex = 4 - rowIndex;
 
         if (colIndex < 0 || colIndex >= Game.NUM_COLS || rowIndex < 0 || rowIndex >= Game.NUM_HEIGHT) {
             return null;
@@ -118,7 +119,7 @@ class Game {
             visited.add(block);
             blocksToRemove.push(block);
         }
-    
+        console.log(blocksToRemove)
         if (blocksToRemove.length > 1) {
             blocksToRemove.forEach(block => {
                 this.removeBlock(block.x, block.y);
@@ -142,7 +143,9 @@ class Game {
 
             if (this.validPosition(newX, newY)) {
                 const neighbor = this.blocks[newX][newY];
-                neighbors.push(neighbor);
+                if (neighbor !== undefined) {
+                    neighbors.push(neighbor);
+                }
             }
         }
 
@@ -165,14 +168,14 @@ class Game {
     checkCollision(block) {
         const colIdx = block.x;
 
-        if (block.y === this.blocks[colIdx].length - 1) {
-            return false;
-        }
+        // if (block.y === this.blocks[colIdx].length - 1) {
+        //     return false;
+        // }
 
         const currentBlockBounds = block.bounds();
         const blocksInSameCol = this.blocks[colIdx];
 
-        const lowerNeighbor = blocksInSameCol[block.y + 1];
+        const lowerNeighbor = blocksInSameCol[block.y - 1];
 
         if (lowerNeighbor) {
             const lowerNeighborBounds = lowerNeighbor.bounds();
